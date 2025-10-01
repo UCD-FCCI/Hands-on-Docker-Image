@@ -13,11 +13,6 @@ RUN apt update && apt install -y \
     sudo \
     && rm -rf /var/lib/apt/lists/*
 
-# Run the setup script to install additional tools
-COPY setup.sh /usr/local/bin/setup.sh
-RUN chmod +x /usr/local/bin/setup.sh
-RUN /usr/local/bin/setup.sh
-
 # Create forensics directory structure
 WORKDIR /forensics
 RUN mkdir -p \
@@ -28,6 +23,11 @@ RUN mkdir -p \
     /forensics/evidence \
     /forensics/reports \
     /forensics/workspaces
+
+# Run the setup script to install additional tools
+COPY setup.sh /usr/local/bin/setup.sh
+RUN chmod +x /usr/local/bin/setup.sh
+RUN /usr/local/bin/setup.sh
 
 # Configure SSH server
 RUN mkdir /var/run/sshd && \
